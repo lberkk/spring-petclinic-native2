@@ -6,7 +6,9 @@ services:
     image: graalvm-rocky:local
     working_dir: /workspace
     volumes:
-      - ..:/workspace
-    
+      - maven-repo:/root/m2
+    ports:
+      - "8080:8080"
+    command: ["/workspace/target/spring-petclinic"]
 volumes:
   maven-repo:
