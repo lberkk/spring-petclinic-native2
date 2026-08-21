@@ -1,0 +1,9 @@
+.git
+target
+build
+.gradle
+*.md
+LICENSE.txt
+k8s
+.github
+.devcontainer

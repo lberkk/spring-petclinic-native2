@@ -1,14 +1,18 @@
 services:
-  graalvm:
+  builder:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        GRAALVM_RELEASE_TAG: graal-25.1.3
+        GRAALVM_ARCHIVE_VERSION: 25i1-25.0.3
     image: graalvm-rocky:local
     working_dir: /workspace
     volumes:
-      - maven-repo:/root/m2
+      - maven-repo:/root/.m2
+      - .:/workspace
     ports:
       - "8080:8080"
-    command: ["/workspace/target/spring-petclinic"]
+    command: ["./target/spring-petclinic"]
 volumes:
   maven-repo:
