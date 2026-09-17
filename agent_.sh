@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-
 export JAVA_HOME=$(dirname $(dirname $(which java)))
 export GRAALVM_HOME="$JAVA_HOME"
 export PATH="$JAVA_HOME/bin:$PATH"
@@ -9,7 +8,6 @@ export PATH="$JAVA_HOME/bin:$PATH"
 PROJECT_PATH="$1"
 
 cd "$PROJECT_PATH"
-
 
 if [ -f "./mvnw" ]; then
 chmod +x ./mvnw
@@ -25,17 +23,12 @@ mkdir -p "$AGENT_DIR"
 
 "$MAVEN" package -DskipTests
 
-
 APP_JAR="$(for j in target/*.jar; do
 
   if unzip -p "$j" META-INF/MANIFEST.MF 2>/dev/null | grep -qi '^Main-Class:'; then
-
     echo "$j"
-
     break
-
   fi
-
 done)"
 
 "$JAVA_HOME/bin/java" -agentlib:native-image-agent=config-merge-dir="$AGENT_DIR" -jar "$APP_JAR" & AGENT_PID=$!
